@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Aggregator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+    }
+
+   header {
+  background: linear-gradient(135deg, #1e272e, #273c75);
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.header-content h1 {
+  margin: 0;
+  font-size: 2.5em;
+  letter-spacing: 1px;
+}
+
+.header-content p {
+  margin-top: 10px;
+  font-size: 1.1em;
+  color: #dcdde1;
+}
+
+.login-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 0.9em;
+  background: #1e90ff;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background: #4682b4;
+}
+
+    nav {
+      background-color: #2f3640;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      background: #40739e;
+      border: none;
+      color: white;
+      margin: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    nav button:hover {
+      background: #273c75;
+    }
+
+    .search-container {
+      text-align: center;
+      padding: 15px;
+      background: #dcdde1;
+    }
+
+    .search-container input {
+      padding: 10px;
+      width: 50%;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .main-news, .sidebar {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .news-item {
+      margin-bottom: 20px;
+    }
+
+    .news-item h2 {
+      font-size: 1.3em;
+      margin-bottom: 5px;
+    }
+
+    .news-item p {
+      color: #555;
+    }
+
+    .news-item button {
+      background: #1e90ff;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .news-item button:hover {
+      background: #4682b4;
+    }
+.news-item img {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.sidebar {
+  background: #2f3640;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.sidebar h3 {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.sidebar button {
+  display: block;
+  width: 100%;
+  background: #40739e;
+  border: none;
+  color: white;
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.sidebar button:hover {
+  background: #273c75;
+}
+.related-content {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  font-size: 0.9em;
+  color: #333;
+}
+
+    footer {
+      text-align: center;
+      background: #1e272e;
+      color: white;
+      padding: 15px 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <h1>📰 Smart News Hub</h1>
+    <p>Your daily source of trusted updates in Technology, Business, World & Sports</p>
+  </div>
+  <button class="login-button" onclick="login()">Login</button>
+</header>
+
+ <button id="openBtn">Open Example</button>
+<nav>
+  <button onclick="filterByCategory('all')">All</button>
+  <button onclick="filterByCategory('technology')">Technology</button>
+  <button onclick="filterByCategory('world')">World</button>
+  <button onclick="filterByCategory('business')">Business</button>
+  <button onclick="filterByCategory('sports')">Sports</button>
+</nav>
+
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="Search news..." oninput="searchNews()">
+</div>
+
+<div class="container">
+  <div class="main-news" id="main-news">
+    <!-- News will be dynamically inserted here -->
+  </div>
+
+ <div class="sidebar">
+
+  <h3>Trending Topics</h3>
+  <button onclick="showRelated('Kunal Kamra row')">Kunal Kamra row</button>
+<button onclick="showRelated('BSF paid rioters')">BSF paid rioters</button>
+<button onclick="showRelated('UK Supreme Court rules definition of \'women\' based on gender assigned at birth')">UK Supreme Court ruling on 'women'</button>
+<button onclick="showRelated('Climate Crisis')">Climate Crisis</button>
+
+<div id="related-content" class="related-content"></div>
+</div>
+
+<footer>
+  © 2025 Smart News Aggregator. Built for readers.
+</footer>
+
+<script>
+
+function showRelated(topic) {
+  const relatedContent = {
+    ai: "Explore how AI is revolutionizing healthcare with faster diagnoses and personalized treatments.",
+    climate: "Discover the outcomes of recent global climate talks and their impact on environmental policies.",
+    finance: "Learn about the latest trends in fintech disrupting traditional banking systems.",
+    sports: "Catch up on the most exciting sports highlights and upcoming events."
+  };
+ const contentDiv = document.getElementById("related-content");
+  contentDiv.textContent = relatedContent[topic] || "No related information available.";
+}
+   function login() {
+    alert('Redirecting to login page...');
+    window.location.href = "login.html"; // You can change the URL based on your login page
+  }
+
+const news = [
+  {
+    title: "AI Breakthrough in Healthcare",
+    content: "AI now helps diagnose diseases faster.",
+    details: "Recent advancements in artificial intelligence have revolutionized healthcare by enabling faster and more accurate diagnoses through machine learning algorithms. A notable development is the AI tool 'FaceAge,' which analyzes facial features to estimate the biological age of cancer patients, thereby predicting their survival outcomes. Trained on nearly 59,000 images of healthy individuals, FaceAge was tested on over 6,000 cancer patients. The findings revealed that patients whose FaceAge appeared older than their chronological age tended to have poorer survival rates. When combined with clinician assessments, FaceAge improved six-month survival prediction accuracy from 61% to 80%. This technology taps into 'perceived ageing' as a potent biomarker for disease prognosis, signaling a shift toward integrating AI-based age estimation in clinical decision-making to improve individualized patient care.",
+    category: "technology",
+    image: "https://media.istockphoto.com/id/1396801868/photo/a-young-african-american-doctor-works-on-hud-or-graphic-display-in-front-of-her.jpg?s=1024x1024&w=is&k=20&c=2lHP_sEKCF-oGDLXmMtkDZaY0smbQCEHGdi7KBS_9Jg="
+  },
+  {
+    title: "Global Leaders Meet for Climate Talks",
+    content: "Nations are discussing urgent climate goals.",
+    details: "The 30th UN Climate Change Conference (COP30) is set to take place in November 2025 in Belém, Brazil. The Brazilian presidency has called for creating enhanced global climate governance mechanisms aimed at accelerating the implementation of climate commitments made under the Paris Agreement. Marking the 10th anniversary of the Paris Accord, current plans still fall short, targeting about 2.6°C. Brazilian President Luiz Inacio Lula da Silva initially proposed at the 2024 G20 summit the creation of a United Nations Climate Change Council to ensure effective enforcement of commitments. Ambassador Andre Correa do Lago, presiding over COP30, echoed this initiative, emphasizing that existing frameworks like UNFCCC lack the mandate for enforcement. Despite being in early stages, Brazil is actively seeking to gain international support for this proposal.",
+    category: "world",
+    image: "https://media.istockphoto.com/id/1385767481/photo/portrait-of-teenage-girl-holding-signs-during-on-a-demonstration-for-environmentalism.jpg?s=2048x2048&w=is&k=20&c=Y7AdSHLOR8i2LX11BzJp_G9gbZzuOj7_i9N1QSoH7nE="
+  },
+  {
+    title: "Tech Stocks Soar Amid Market Recovery",
+    content: "Big tech leads the way in financial growth.",
+    details: "After a turbulent start to 2025, the 'Magnificent Seven' tech giants—Nvidia, Apple, Alphabet, Meta, Microsoft, Amazon, and Tesla—have rebounded significantly. The Roundhill Magnificent Seven ETF has gained 18.2% since its April low, driven by strong first-quarter earnings and optimism over potential easing of U.S.-China trade tensions. Analysts predict sustained AI-driven growth and investor return to mega-cap tech stocks due to strong earnings and resilience, with the AI 'arms race' just beginning. Despite short-term challenges from tariffs, these companies are expected to benefit from automation demands, while cybersecurity remains essential with companies like Zscaler and Palo Alto Networks showing promise.",
+    category: "business",
+    image: "https://images.pexels.com/photos/12983196/pexels-photo-12983196.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    title: "ISSF World Cup",
+    content: "Saurabh Chaudhary on the podium with bronze in 10m air pistol!",
+    details: "Indian shooter Saurabh Chaudhary secured a bronze medal in the men's 10m air pistol event at the ISSF World Cup in Lima, Peru. This achievement marks his return to the podium after a hiatus, showcasing his resilience and dedication to the sport. Chaudhary, who previously won gold at the Youth Olympic Games in Buenos Aires at the age of 16, continues to be a prominent figure in Indian shooting sports.",
+    category: "sports",
+    image: "https://images.pexels.com/photos/7412008/pexels-photo-7412008.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    title: "Dortmund vs Barcelona UCL",
+    content: "Where to watch quarterfinal live...",
+    details: "In the UEFA Champions League quarterfinals, Borussia Dortmund defeated Barcelona 3-1 in the second leg. Despite the loss, Barcelona advanced to the semifinals with a 5-3 aggregate score. The match was held at Signal Iduna Park in Dortmund, with an attendance of 81,365 spectators. The highly anticipated UEFA Champions League quarterfinal match between Dortmund and Barcelona is scheduled to be broadcast live on major sports networks and streaming platforms. Fans can tune in to watch the intense battle as both teams vie for a spot in the semifinals.",
+    category: "sports",
+    image: "https://images.pexels.com/photos/6015836/pexels-photo-6015836.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    title: "World Bank Releases Global Report",
+    content: "New economic challenges ahead.",
+    details: "The World Bank's Global Economic Prospects report for January 2025 projects a steady global growth rate of 2.7% for 2025-2026. However, the report highlights several challenges: Low-Income Countries face significant hurdles, including weak investment, aging populations, and the adverse effects of climate change. A projected softening in commodity prices is expected to moderately impact growth in certain countries. The report emphasizes the need for structural reforms and increased investment in human capital to sustain long-term growth.",
+    category: "world",
+    image: "https://images.pexels.com/photos/3222683/pexels-photo-3222683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    title: "Startups Disrupt Finance Industry",
+    content: "Fintech is changing how we bank.",
+    details: "Fintech startups are reshaping the financial landscape by introducing innovative solutions. Companies like Atomic and DeFacto enable businesses to offer financial services directly within their platforms without being traditional banks. This integration allows for seamless investing, lending, and payment services. Startups such as Gauntlet are enhancing the safety and efficiency of blockchain-based financial services, optimizing risk management for DeFi protocols. Companies like Acorns and Betterment are disrupting personal finance by providing automated investment advice and portfolio management, making wealth management accessible to a broader audience.",
+    category: "technology",
+    image: "https://images.pexels.com/photos/6771874/pexels-photo-6771874.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  }
+];
+
+  let currentCategory = "all";
+
+function displayNews(filteredNews) {
+  const mainNews = document.getElementById("main-news");
+  mainNews.innerHTML = "";
+  if (filteredNews.length === 0) {
+    mainNews.innerHTML = "<p>No news articles found.</p>";
+    return;
+  }
+
+  filteredNews.forEach(article => {
+    const div = document.createElement("div");
+    div.className = "news-item";
+    div.innerHTML = `
+      <h2>${article.title}</h2>
+      <img src="${article.image}" alt="${article.title}" style="width:100%; height:auto; border-radius:8px; margin-bottom:10px;" />
+      <p>${article.content}</p>
+      <button onclick="showDetails('${article.details.replace(/'/g, "\\'")}')">Details</button>
+    `;
+    mainNews.appendChild(div);
+  });
+
+  }
+
+  function showDetails(details) {
+    alert(details);
+  }
+
+  function filterByCategory(category) {
+    currentCategory = category;
+    searchNews(); // call search to apply both search + category filters
+  }
+
+  function searchNews() {
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+    const filteredNews = news.filter(article => {
+      const matchCategory = currentCategory === "all" || article.category === currentCategory;
+      const matchSearch = article.title.toLowerCase().includes(searchTerm) || article.content.toLowerCase().includes(searchTerm);
+      return matchCategory && matchSearch;
+    });
+
+    displayNews(filteredNews);
+  }
+
+  // Initial display
+  displayNews(news);
+    function showRelated(topic) {
+      const relatedContent = {
+        "Kunal Kamra row": "Comedian Kunal Kamra received interim protection from arrest by the Bombay High Court after an FIR was filed against him for allegedly referring to Maharashtra's Deputy CM Eknath Shinde as a 'traitor' during a performance. The court reserved its order on his plea seeking to quash the FIR. <a href='https://timesofindia.indiatimes.com/india/kunal-kamra-row-hc-grants-interim-protection-from-arrest-to-comedian-in-traitor-joke-case/articleshow/120347820.cms' target='_blank'>Source</a>",
+        "BSF paid rioters": "West Bengal CM Mamata Banerjee accused the BJP and certain elements within the Border Security Forces of orchestrating communal violence in Murshidabad, alleging that they paid rioters to incite tensions over the Waqf Amendment Act. <a href='https://www.hindustantimes.com/india-news/mamata-banerjee-blames-bjp-bsf-for-murshidabad-violence-calls-amit-shah-most-harmful-for-india-101744798792782.html' target='_blank'>Source</a>",
+        "UK Supreme Court rules definition of 'women' based on gender assigned at birth": "The UK Supreme Court ruled that the legal definition of 'woman' in the Equality Act refers to biological sex, excluding transgender women. This decision has sparked debates and concerns among LGBTQ+ advocates. <a href='https://www.hindustantimes.com/world-news/uk-supreme-court-rules-definition-of-woman-gender-assigned-at-birth-101744807295762.html' target='_blank'>Source</a>",
+        "Climate Crisis": "Nepal held a symbolic 'funeral' for the Yala glacier, highlighting the accelerating impact of climate change on global glaciers. Scientists warn that over 1,000 glaciers disappear annually worldwide, with significant implications for sea-level rise and water security. <a href='https://www.ft.com/content/78c1aced-e2a8-4910-9f29-47aa9c8e9034' target='_blank'>Source</a>"
+      };
+
+      const contentDiv = document.getElementById("related-content");
+      contentDiv.innerHTML = relatedContent[topic] || "No related information available.";
+    }
+  </script>
+
+</body>
+</html>
